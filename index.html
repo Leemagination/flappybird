@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="css/index.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+    <div id="bg">
+        <div id="gametitle">
+            <img id="titlebird" src="img/bird0.png"/>
+        </div>
+        <div id="score">0</div>
+        <button id="startbtn"></button>
+        <div id="grass1"></div>
+        <div id="grass2"></div>
+    </div>
+</body>
+    <script src="js/bird.js" type="text/javascript"></script>
+    <script src="js/baseObj.js" type="text/javascript"></script>
+    <script src="js/block.js" type="text/javascript"></script>
+    <script>
+        var gametitle = document.getElementById("gametitle");
+        var titlebird = document.getElementById("titlebird");
+        var grass1 = document.getElementById("grass1");
+        var grass2 = document.getElementById("grass2");
+        var startbtn = document.getElementById("startbtn");
+        var bg = document.getElementById("bg");
+        var scoreboard = document.getElementById("score");
+        var Y = 2;
+        var index = 0;
+        var score = 0;
+        var blocksArr = [];
+        var blockDistance = baseObj.randomNum(160,230);
+        var birdaction = ["img/bird0.png","img/bird1.png"];
+        var birdWavetime = setInterval(headWave,200);
+        var grassmove = setInterval(grassrun,30);
+
+        function headWave(){
+            Y *=-1;
+            gametitle.style.top = gametitle.offsetTop + Y + "px";
+            titlebird.src = birdaction[index++];
+            if(index == 2){
+                index = 0;
+            }
+        }
+        function grassrun(){
+            if(grass1.offsetLeft<=-343){
+                grass1.style.left = "343px";
+            }
+            if(grass2.offsetLeft<=-343){
+                grass2.style.left = "343px";
+            }
+            grass1.style.left = grass1.offsetLeft - 3 +"px";
+            grass2.style.left = grass2.offsetLeft - 3 +"px";
+
+            if(blocksArr.length){
+                for(let i = 0;i<blocksArr.length;i++){
+                    blocksArr[i].moveBlock();
+                    var blockscore = blocksArr[0].upDivWrap.offsetLeft;
+                    var x = baseObj.rectangleCrashExamine(blocksArr[i].downDivWrap,bird.div);
+                    var y = baseObj.rectangleCrashExamine(blocksArr[i].upDivWrap,bird.div);
+                    var z = bird.div.offsetTop >= 390;
+                    if(x || y || z){
+                        window.clearInterval(grassmove);
+                        bird.fallSpeed = 0;
+                        bg.onclick = null;
+                    }
+                }
+
+                if(blockscore == -12){
+                    score++;
+                    scoreboard.innerHTML = score;
+                }
+                if(blocksArr[blocksArr.length-1].downDivWrap.offsetLeft < (450 - blockDistance)){
+                    blockDistance = baseObj.randomNum(160,230);
+                    var newBlock = new Block();
+                    newBlock.createBlock();
+                    blocksArr.push(newBlock);
+                }
+                if(blocksArr[0].downDivWrap.offsetLeft < -50){
+                    bg.removeChild(blocksArr[0].downDivWrap);
+                    bg.removeChild(blocksArr[0].upDivWrap);
+                    blocksArr.shift(blocksArr[0]);
+                }
+
+            }
+
+        }
+        startbtn.onclick = function(){
+            gametitle.style.display = "none";
+            clearInterval(headWave);
+            startbtn.style.display = "none";
+            bird.showBird(bg);
+            bird.flyBird();
+            bird.wingWave();
+            scoreboard.style.display = "block";
+            bg.onclick = function () {
+                bird.fallSpeed = -8;
+            };
+            var b = new Block();
+            b.createBlock();
+            blocksArr.push(b);
+
+        }
+    </script>
+</html>

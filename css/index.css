@@ -1,0 +1,66 @@
+*{
+    margin:0;
+    padding:0;
+}
+#bg{
+    width:343px;
+    height:480px;
+    position: absolute;
+    top:45%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    background-image: url("../img/bg.jpg");
+    overflow: hidden;
+}
+#gametitle{
+    width:236px;
+    height:77px;
+    position:relative;
+    left:53px;
+    top:100px;
+    background-image: url("../img/gametitle.jpg");
+}
+#titlebird{
+    float:right;
+    margin-top:25px;
+}
+#startbtn{
+    width:85px;
+    height:29px;
+    position:absolute;
+    left:129px;
+    top:250px;
+    background-image: url("../img/start.jpg");
+}
+#score{
+    padding:0px 5px;
+    position:absolute;
+    top:10%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    border:1px solid black;
+    z-index: 1;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+    background-color: black;
+    color:white;
+    font-size: 24px;
+    display: none;
+}
+#grass1{
+    position: absolute;
+    width:343px;
+    height:14px;
+    top:423px;
+    background-image: url("../img/banner.jpg");
+}
+#grass2{
+    position: absolute;
+    width:343px;
+    height:14px;
+    top:423px;
+    left:343px;
+    background-image: url("../img/banner.jpg");
+}
